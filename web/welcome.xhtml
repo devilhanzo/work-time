@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <ui:composition template="/templates/main.xhtml">
+        <ui:define name="body">
+            <h3>ระบบรายงานเวลาปฏิบัติงานบุคลากรโรงพยาบาลขอนแก่นยินดีต้อนรับ <font color="red">#{userLogin.sessionUname}</font></h3>
+            <b>ปรับปรุงโปรแกรมล่าสุดเมื่อ <font color="red">1 มิถุนายน 2556</font></b>
+            <p><ul STYLE="list-style-image: url(#{facesContext.externalContext.requestContextPath}/images/icons/fingerprint_bullet.png)">
+                    <li>เพิ่มรายงานสรุป</li>
+                    <li>เพิ่มบันทึกการลา</li>
+                </ul> 
+            </p>
+            <b><font color="red">1 สิงหาคม 2555</font></b>
+            <p><ul STYLE="list-style-image: url(#{facesContext.externalContext.requestContextPath}/images/icons/fingerprint_bullet.png)">
+                    <li>เพิ่มระบบสิทธิการทำรายงาน บุคลากรทั่วไป ระดับหน่วยงาน และระดับองค์กร</li>
+                    <li>บุคลากรทั่วไปสามารถบันทึกการตั้งค่ารูปแบบรายงานของตนเองได้</li>
+                    <li>หน่วยงานสามารถบันทึกการตั้งค่ารูปแบบรายงานของตนเอง และสร้างช่วงเวลาการทำงานเองได้</li>
+                    <li>เลือกวันที่ทำรายงานเป็นวันที่ปัจจุบันโดยอัตโนมัติ</li>
+                    <li>เพิ่มตัวเลือกแสดงเวลาที่ลงไม่ครบ</li>
+                    <li>คำนวนสรุปรายเดือนในรายงานรายบุคคล</li>
+                    <li>ทำรายงานได้ง่ายขึ้น</li>
+                    <li>ปรับปรุงประสิทธิภาพโดยรวมของโปรแกรม</li>
+                </ul> 
+            </p>
+        </ui:define>
+    </ui:composition>
+</html>
+

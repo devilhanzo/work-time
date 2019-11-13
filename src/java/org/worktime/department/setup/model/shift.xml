@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Document   : shift.xml
+    Created on : May 20, 2013, 6:30 AM
+    Author     : PucK
+    Description:
+        Purpose of the document follows.
+        Use for shift type pick list.
+-->
+
+
+<shifts>
+    <shift>
+        <type>ไม่ขอเบิก</type>
+        <value>0</value>
+    </shift>
+    <shift>
+        <type>OT 2 ชั่วโมง</type>
+        <value>1</value>
+    </shift>
+    <shift>
+        <type>OT 3 ชั่วโมง</type>
+        <value>2</value>
+    </shift>
+    <shift>
+        <type>OT 4 ชั่วโมง</type>
+        <value>3</value>
+    </shift>
+    <shift>
+        <type>OT 5 ชั่วโมง</type>
+        <value>4</value>
+    </shift>
+    <shift>
+        <type>OT 6 ชั่วโมง</type>
+        <value>5</value>
+    </shift>
+    <shift>
+        <type>OT 7 ชั่วโมง</type>
+        <value>6</value>
+    </shift>
+    <shift>
+        <type>OT 8 ชั่วโมง</type>
+        <value>7</value>
+    </shift>
+    <shift>
+        <type>เวรผลัด-เช้า 8 ชั่วโมง</type>
+        <value>8</value>
+    </shift>
+    <shift>
+        <type>เวรผลัด-เช้า 4 ชั่วโมง</type>
+        <value>9</value>
+    </shift>
+    <shift>
+        <type>เวรผลัด-บ่าย 8 ชั่วโมง</type>
+        <value>10</value>
+    </shift>
+    <shift>
+        <type>เวรผลัด-บ่าย 4 ชั่วโมง</type>
+        <value>11</value>
+    </shift>
+    <shift>
+        <type>เวรผลัด-ดึก 8 ชั่วโมง</type>
+        <value>12</value>
+    </shift>
+    <shift>
+        <type>เวรผลัด-ดึก 4 ชั่วโมง</type>
+        <value>13</value>
+    </shift>
+</shifts>

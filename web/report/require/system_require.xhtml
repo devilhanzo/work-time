@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:rich="http://richfaces.org/rich">
+
+    <ui:composition>
+        <p><b>ความต้องการของระบบ</b> โปรแกรมที่รองรับการทำงานระบบรายงานเวลาปฏิบัติงาน มีดังต่อไปนี้</p>
+        <br/><b>เว็บบราวเซอร์ที่รองรับ</b><br/><br/>
+        <h:panelGrid columns="3" width="300" >
+            <h:graphicImage value="/images/icons/chrome.png" width="32" height="32" 
+                            style="display: block; margin-left: auto;margin-right: auto;" />
+            <h:graphicImage value="/images/icons/ie.png" width="32" height="32" 
+                            style="display: block; margin-left: auto;margin-right: auto;" />
+            <h:graphicImage value="/images/icons/firefox.png" width="32" height="32" 
+                            style="display: block; margin-left: auto;margin-right: auto;" />
+            <h:outputLink id="chrome-download" value="http://www.google.com/chrome" target="_blank" 
+                          style="text-align: center;display: block; margin-left: auto;margin-right: auto;" >
+                <rich:tooltip followMouse="true" mode="client" horizontalOffset="5" verticalOffset="5" layout="block">
+                    ดาวน์โหลดโปรแกรม
+                </rich:tooltip>
+                Google Chrome
+            </h:outputLink>
+            <h:outputLink id="ie-download" value="http://windows.microsoft.com/th-TH/internet-explorer/products/ie/home" 
+                          style="text-align: center;display: block; margin-left: auto;margin-right: auto;" target="_blank" >
+                <rich:tooltip followMouse="true" mode="client" horizontalOffset="5" verticalOffset="5" layout="block">
+                    ดาวน์โหลดโปรแกรม
+                </rich:tooltip>
+                Internet Explorer
+            </h:outputLink>
+            <h:outputLink id="firefox-download" value="http://www.mozilla.org/th/firefox" 
+                          style="text-align: center;display: block; margin-left: auto;margin-right: auto;" target="_blank" >
+                <rich:tooltip followMouse="true" mode="client" horizontalOffset="5" verticalOffset="5" layout="block">
+                    ดาวน์โหลดโปรแกรม
+                </rich:tooltip>
+                Mozila Firefox
+            </h:outputLink>
+        </h:panelGrid>
+        <br/><b>โปรแกรมอ่านไฟล์ pdf ที่รองรับ</b><br/><br/>
+        <h:panelGrid columns="2" width="200" >
+            <h:graphicImage value="/images/icons/acrobat.png" width="32" height="32" 
+                            style="display: block; margin-left: auto;margin-right: auto;" />
+            <h:graphicImage value="/images/icons/foxit.png" width="32" height="32" 
+                            style="display: block; margin-left: auto;margin-right: auto;" />
+            <h:outputLink id="acrobat-download" value="http://get.adobe.com/reader/" 
+                          style="text-align: center;display: block; margin-left: auto;margin-right: auto;" target="_blank" >
+                <rich:tooltip followMouse="true" mode="client" horizontalOffset="5" verticalOffset="5" layout="block">
+                    ดาวน์โหลดโปรแกรม
+                </rich:tooltip>
+                Acrobat Reader
+            </h:outputLink>
+            <h:outputLink id="foxit-download" value="http://www.foxitsoftware.com/downloads/" 
+                          style="text-align: center;display: block; margin-left: auto;margin-right: auto;" target="_blank" >
+                <rich:tooltip followMouse="true" mode="client" horizontalOffset="5" verticalOffset="5" layout="block">
+                    ดาวน์โหลดโปรแกรม
+                </rich:tooltip>
+                Foxit Reader
+            </h:outputLink>
+        </h:panelGrid>
+        <br/>
+        <h:outputLabel value="* Google Chrome มีโปรแกรมอ่านไฟล์ pdf ในตัวไม่ต้องติดตั้งเพิ่ม" />
+        <h:outputLabel value="* แนะนำให้ใช้ Google Chrome" />
+    </ui:composition>
+
+</html>
+

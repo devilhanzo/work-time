@@ -1,0 +1,24 @@
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:f="http://java.sun.com/jsf/core"    
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:a4j="http://richfaces.org/a4j" 
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <ui:composition>    
+        <ul id="skin-menu" class="layout">
+            <c:forEach items="#{adminNavigator.groups}" var="gr">
+                <a4j:repeat var="d" value="#{gr.admins}" iterationStatusVar="iterStatus">           
+                    <li >
+                    <h:link outcome="/wt_adm/admin"  >												
+                        <a4j:outputPanel>#{d.name}</a4j:outputPanel>
+                        <f:param name="type" value="#{d.id}" />
+                    </h:link>       
+                    
+                    </li>        
+                </a4j:repeat>
+                <li class="label"><span>#{gr.name}</span></li> 
+            </c:forEach>
+        </ul>
+    </ui:composition></html>
+

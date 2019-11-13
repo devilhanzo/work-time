@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:composition>
+        <h:outputStylesheet library="css" name="report-table.css" />
+        วันนี้ #{holidayBean.currentDate} <br/>
+        <center><b>วันสำคัญ และวันหยุดราชการประจำปี พ.ศ. #{holidayBean.currentYear}</b> </center>
+        <center>
+            <h:dataTable value="#{holidayBean.holidayList}" var="holiday" 
+                         styleClass="order-table"
+                         headerClass="order-table-header"
+                         columnClasses="order-table-column,order-table-column-width,
+                         order-table-column-last"
+                         id="holidayDataTable" >
+                <h:column >
+                    <f:facet name="header">
+                        วันที่
+                    </f:facet>
+                    <c:set var="rdate" value="#{holidayBean.currentDate}" />
+                    <c:set var="hdate" value="#{holiday.holidayDate}" />
+                    <c:choose>
+                        <c:when test="${rdate == hdate}" >
+                            <h:outputLabel style="color: red;" value="#{holiday.holidayDate}" />
+                        </c:when>
+                        <c:otherwise>
+                            #{holiday.holidayDate}
+                        </c:otherwise>
+                    </c:choose>
+                </h:column>
+                <h:column >
+                    <f:facet name="header">
+                        วันสำคัญ
+                    </f:facet> 
+                    
+                            
+                                <h:outputLink id="wiki-link" value="#{holiday.holidayURL}" target="_blank" >                            
+                                <rich:tooltip followMouse="true" mode="client" horizontalOffset="5" verticalOffset="5" layout="block">
+                                    รายละเอียดเพิ่มเติม
+                                </rich:tooltip>                            
+                                    #{holiday.holidayDetail}
+                                </h:outputLink> 
+                            
+                </h:column>
+                <h:column >
+                    <f:facet name="header">
+                        ประเภท
+                    </f:facet>
+                    #{holiday.holidayType}
+                </h:column>
+            </h:dataTable>
+            <rich:jQuery selector="#holidayDataTable tr:odd" query="addClass('order-table-odd-row')" />
+                <rich:jQuery selector="#holidayDataTable tr:even" query="addClass('order-table-even-row')" />
+                <rich:jQuery selector="#holidayDataTable tr" 
+                             query="mouseover(function(){jQuery(this).addClass('order-table-active-row')})"/>
+                <rich:jQuery selector="#holidayDataTable tr" 
+                             query="mouseout(function(){jQuery(this).removeClass('order-table-active-row')})"/>
+        </center>
+    </ui:composition>
+
+</html>
+

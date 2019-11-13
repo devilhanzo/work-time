@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!-- =========== FULL CONFIGURATION FILE ================================== -->
+
+<faces-config version="2.0"
+    xmlns="http://java.sun.com/xml/ns/javaee" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+    <application>
+        <locale-config>
+            <default-locale>th</default-locale>
+            <supported-locale>en</supported-locale>
+        </locale-config>
+    </application>
+    
+    <navigation-rule>
+        <from-view-id>/login.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{userLogin.checkValidUser}</from-action>
+            <from-outcome>suspended</from-outcome>
+            <to-view-id>/suspended.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-action>#{userLogin.checkValidUser}</from-action>
+            <from-outcome>failure</from-outcome>
+            <to-view-id>/loginfail.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-action>#{userLogin.checkValidUser}</from-action>
+            <from-outcome>notregister</from-outcome>
+            <to-view-id>/notregister.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/loginfail.xhtml</from-view-id>        
+        <navigation-case>            
+            <to-view-id>/login.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>    
+</faces-config>
+

@@ -1,0 +1,248 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:c="http://java.sun.com/jsp/jstl/core" 
+      xmlns:rich="http://richfaces.org/rich" >
+
+    <ui:composition>
+        <h:outputStylesheet library="css" name="report-table.css" />        
+        <p><b>เพิม/แก้ไขสิทธิผู้ดูแลผู้ทำรายงาน</b></p>
+        <h:panelGrid columns="2">
+            <h:form id="usermenu" >
+                <h:commandButton action="admin" value="ค้นหา" >
+                    <f:setPropertyActionListener target="#{userManageBean.searchUser}" value="true"/>
+                    <f:setPropertyActionListener target="#{userManageBean.kkhEmpPicked}" value="false"/>
+                </h:commandButton>                    
+                <h:commandButton action="admin" value="แสดงทั้งหมด" actionListener="#{userManageBean.preloadUser(event)}" >
+                    <f:setPropertyActionListener target="#{userManageBean.listActiveUsers}" value="true"/>
+                    <f:setPropertyActionListener target="#{userManageBean.kkhEmpPicked}" value="false"/>
+                </h:commandButton>
+            </h:form>
+        </h:panelGrid>
+        <c:choose>
+            <!--Search In System User-->
+            <c:when test="${userManageBean.searchUser == 'true'}">
+                <h:form id="KKhEmpSearchForm">
+                    <h:panelGrid columns="4" >
+                        <h:selectOneMenu value="#{listKkhEmpBean.searchType}"  >
+                            <f:selectItem itemValue="2" itemLabel="เลขที่เงินเดือน" />
+                            <f:selectItem itemValue="0" itemLabel="ชื่อ" />
+                            <f:selectItem itemValue="1" itemLabel="นามสกุล" />                                    
+                        </h:selectOneMenu>
+                        <h:inputText value="#{listKkhEmpBean.keyWord}" />
+                        <h:selectOneMenu value="#{listKkhEmpBean.kkhDeptId}" 
+                                         valueChangeListener="#{listKkhEmpBean.kkhDeptIdChanged}"
+                                         onchange="submit()">
+                            <f:selectItem itemValue="0" itemLabel=""/>
+                            <c:forEach items="#{listKkhDeptBean.listKkhDept}" var="lkd">
+                                <f:selectItem itemValue="#{lkd.kkhdeptid}" itemLabel="#{lkd.kkhdeptname}"/>
+                            </c:forEach>
+                        </h:selectOneMenu>
+                        <h:commandButton action="admin" value="Search" actionListener="#{listKkhEmpBean.preloadEmployeeList(action)}" >
+                            <f:setPropertyActionListener target="#{userManageBean.kkhEmpPicked}" value="false"/>
+                        </h:commandButton>
+
+                    </h:panelGrid> 
+                </h:form>
+                <!--Normal User Search List-->
+                <c:if test="${userManageBean.kkhEmpPicked != 'true'}" >
+                    <c:if test="${not empty listKkhEmpBean.kkhEmployeeList}" >
+
+                        <center>
+                            <h:dataTable  value="#{listKkhEmpBean.kkhEmployeeList}" var="kkhemp" 
+                                          styleClass="order-table"
+                                          headerClass="order-table-header"
+                                          columnClasses="order-table-column,order-table-column,
+                                          order-table-column,order-table-column-last"
+                                          id="KkhEmpListTable" width="100%">
+                                <h:column >
+                                    <f:facet name="header">
+                                        เลขที่
+                                    </f:facet>
+                                    #{kkhemp.no}
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        ชื่อ-สกุล
+                                    </f:facet>
+                                    <h:form >                                
+                                        <h:commandLink value="#{kkhemp.empname}" id="cmdlink" action="#{userManageBean.loadPrivileges(action)}" >
+                                            <rich:tooltip followMouse="true" mode="client" horizontalOffset="5" verticalOffset="5" layout="block">
+                                                Active User
+                                            </rich:tooltip>
+                                            <f:setPropertyActionListener target="#{userManageBean.code}" value="#{kkhemp.code}" />
+                                            <f:setPropertyActionListener target="#{userManageBean.no}" value="#{kkhemp.no}" />
+                                            <f:setPropertyActionListener target="#{userManageBean.empname}" value="#{kkhemp.empname}" />
+                                            <f:setPropertyActionListener target="#{userManageBean.department}" value="#{kkhemp.department}" />
+                                            <f:setPropertyActionListener target="#{userManageBean.kkhEmpPicked}" value="true"/>
+                                        </h:commandLink>
+                                    </h:form>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        ตำแหน่ง
+                                    </f:facet>
+                                    #{kkhemp.position}
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        หน่วยงาน
+                                    </f:facet>
+                                    #{kkhemp.department}
+                                </h:column>
+                            </h:dataTable>
+                            <rich:jQuery selector="#KkhEmpListTable tr:odd" query="addClass('order-table-odd-row')" />
+                            <rich:jQuery selector="#KkhEmpListTable tr:even" query="addClass('order-table-even-row')" />
+                            <rich:jQuery selector="#KkhEmpListTable tr" 
+                                         query="mouseover(function(){jQuery(this).addClass('order-table-active-row')})"/>
+                            <rich:jQuery selector="#KkhEmpListTable tr" 
+                                         query="mouseout(function(){jQuery(this).removeClass('order-table-active-row')})"/>
+                        </center>
+                    </c:if>
+                </c:if>
+                <!--Active New User-->
+                <c:if test="${userManageBean.kkhEmpPicked != 'false'}" >
+                    <h:panelGrid columns="1" width="100%" >
+                        <h:outputStylesheet library="css" name="panel.css" />
+                        <rich:panel header="Activate User" style="width: 100%;" >
+                            <h:form id="changePrivilege">
+                                <h:panelGrid columns="3" width="100%" bgcolor="#F0F6FE" >                                    
+                                    <h:outputLabel style="font-weight: bold;" value="เลขที่"  />
+                                    <h:outputLabel style="font-weight: bold;" value="ชื่อ-นามสกุล" />
+                                    <h:outputLabel style="font-weight: bold;" value="หน่วยงาน" />
+                                    <h:outputText value=" #{userManageBean.no}" />
+                                    <h:outputText value=" #{userManageBean.empname}" />
+                                    <h:outputText value=" #{userManageBean.department}" />
+                                </h:panelGrid>
+                            <br/>
+                                <h:outputLabel style="font-weight: bold;color: red;" value="สิทธิการใช้งาน" />
+                                <h:panelGrid columns="2" >
+                                    <h:outputLabel value="ผู้ดูแลระบบ" />
+                                    <h:selectBooleanCheckbox value="#{userManageBean.adm_priv}" />
+                                    <h:outputLabel value="รายงานหน่วยงาน" />
+                                    <h:selectBooleanCheckbox value="#{userManageBean.dept_priv}" />
+                                    <h:outputLabel value="รายงานองค์กร" />
+                                    <h:selectBooleanCheckbox value="#{userManageBean.org_priv}" />
+                                    <h:outputLabel value="ระงับใช้" />
+                                    <h:selectBooleanCheckbox value="#{userManageBean.suspended_priv}" />                                 
+                                </h:panelGrid>
+                                <h:commandButton action="#{userManageBean.savePrivileges(action)}" value="Save" >
+                                    <f:setPropertyActionListener target="#{userManageBean.kkhEmpPicked}" value="false"/>
+                                </h:commandButton>
+                            </h:form>
+                        </rich:panel>
+                        </h:panelGrid> 
+                </c:if>
+            </c:when>
+            <!--List Activated User-->
+            <c:when test="${userManageBean.listActiveUsers == 'true'}">
+                <c:if test="${userManageBean.kkhEmpPicked != 'true'}" >
+                    <center>
+                        <h:outputText value="รายชื่อผู้ถือสิทธิระบบ" style="font-weight: bold;" />
+                        <rich:dataTable  value="#{userManageBean.systemUserList}" var="sul" style="width: 100%">
+                            <h:column >
+                                <f:facet name="header">
+                                    เลขที่
+                                </f:facet>
+                                #{sul.no}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    ชื่อ-สกุล
+                                </f:facet>
+                                <h:form >                                
+                                    <h:commandLink value="#{sul.empname}" id="Editlink" action="#{userManageBean.loadPrivileges(action)}" >
+                                        <rich:tooltip followMouse="true" mode="client" horizontalOffset="5" verticalOffset="5" layout="block">
+                                            Edit User
+                                        </rich:tooltip>
+                                        <f:setPropertyActionListener target="#{userManageBean.code}" value="#{sul.code}" />
+                                        <f:setPropertyActionListener target="#{userManageBean.no}" value="#{sul.no}" />
+                                        <f:setPropertyActionListener target="#{userManageBean.empname}" value="#{sul.empname}" />
+                                        <f:setPropertyActionListener target="#{userManageBean.department}" value="#{sul.department}" />
+                                        <f:setPropertyActionListener target="#{userManageBean.kkhEmpPicked}" value="true"/>
+                                    </h:commandLink>
+                                </h:form>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    หน่วยงาน
+                                </f:facet>
+                                #{sul.department}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    Adm
+                                </f:facet>
+                                #{sul.adm_priv}                                    
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    Dept
+                                </f:facet>
+                                #{sul.dept_priv}                                    
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    Org
+                                </f:facet>
+                                #{sul.org_priv}                                    
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    Lock
+                                </f:facet>
+                                #{sul.suspended_priv}                                    
+                            </h:column>
+
+                        </rich:dataTable>
+                        <rich:jQuery selector="#UserListTable tr:odd" query="addClass('order-table-odd-row')" />
+                        <rich:jQuery selector="#UserListTable tr:even" query="addClass('order-table-even-row')" />
+                        <rich:jQuery selector="#UserListTable tr" 
+                                     query="mouseover(function(){jQuery(this).addClass('order-table-active-row')})"/>
+                        <rich:jQuery selector="#UserListTable tr" 
+                                     query="mouseout(function(){jQuery(this).removeClass('order-table-active-row')})"/>
+
+                    </center>
+                </c:if>
+                <!-- Edit User Privileges-->
+                <c:if test="${userManageBean.kkhEmpPicked != 'false'}" >
+                    <h:panelGrid columns="1" width="100%" >
+                        <h:outputStylesheet library="css" name="panel.css" />
+                        <rich:panel header="Edit User" style="width: 100%;" >
+                            <h:form id="changePrivilege">
+                                <h:panelGrid columns="3" width="100%" bgcolor="#F0F6FE" >                                    
+                                    <h:outputLabel style="font-weight: bold;" value="เลขที่"  />
+                                    <h:outputLabel style="font-weight: bold;" value="ชื่อ-นามสกุล" />
+                                    <h:outputLabel style="font-weight: bold;" value="หน่วยงาน" />
+                                    <h:outputText value=" #{userManageBean.no}" />
+                                    <h:outputText value=" #{userManageBean.empname}" />
+                                    <h:outputText value=" #{userManageBean.department}" />
+                                </h:panelGrid>
+                            <br/>
+                                <h:outputLabel style="font-weight: bold;color: red;" value="สิทธิการใช้งาน" />
+                                <h:panelGrid columns="2" >
+                                    <h:outputLabel value="ผู้ดูแลระบบ" />
+                                    <h:selectBooleanCheckbox value="#{userManageBean.adm_priv}" />
+                                    <h:outputLabel value="รายงานหน่วยงาน" />
+                                    <h:selectBooleanCheckbox value="#{userManageBean.dept_priv}" />
+                                    <h:outputLabel value="รายงานองค์กร" />
+                                    <h:selectBooleanCheckbox value="#{userManageBean.org_priv}" />
+                                    <h:outputLabel value="ระงับใช้" />
+                                    <h:selectBooleanCheckbox value="#{userManageBean.suspended_priv}" />                                 
+                                </h:panelGrid>
+                                <h:commandButton action="#{userManageBean.savePrivileges(action)}" value="Save" >
+                                    <f:setPropertyActionListener target="#{userManageBean.kkhEmpPicked}" value="false"/>
+                                </h:commandButton>
+                            </h:form>
+                        </rich:panel>
+                        </h:panelGrid> 
+                </c:if>
+            </c:when>
+        </c:choose>        
+    </ui:composition>
+
+</html>
+

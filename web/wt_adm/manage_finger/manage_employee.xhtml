@@ -1,0 +1,277 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:c="http://java.sun.com/jsp/jstl/core" 
+      xmlns:rich="http://richfaces.org/rich" >
+
+    <ui:composition>
+        <h:outputStylesheet library="css" name="report-table.css" />        
+        <p><b>แก้ไขข้อมูลทะเบียนลายนิ้วมือ</b></p>
+        <h:panelGrid columns="2">
+            <h:form id="employee_menu" >
+                <h:commandButton action="manage_employee" value="ค้นหา" >
+                    <f:setPropertyActionListener target="#{empManageBean.searchFinger}" value="true"/>
+                    <f:setPropertyActionListener target="#{empManageBean.fingerPicked}" value="false"/>
+                </h:commandButton>                    
+                <h:commandButton action="manage_employee" value="แสดงทั้งหมด" actionListener="#{empManageBean.proloadEmp(event)}" >
+                    <f:setPropertyActionListener target="#{empManageBean.listFinger}" value="true"/>
+                    <f:setPropertyActionListener target="#{empManageBean.fingerPicked}" value="false"/>
+                    <f:setPropertyActionListener target="#{empManageBean.searchFinger}" value="false"/>
+                </h:commandButton>
+            </h:form>
+        </h:panelGrid>
+        <c:choose>
+            <!--Search In System User-->
+            <c:when test="${empManageBean.searchFinger == 'true'}">
+                <h:form id="ManageEmpSearchForm">
+                    <h:panelGrid columns="3" >
+                        <h:selectOneMenu value="#{empManageBean.searchType}"  >
+                            <f:selectItem itemValue="0" itemLabel="เลขที่ในระบบ" />
+                            <f:selectItem itemValue="1" itemLabel="เลขที่เงินเดือน" />
+                            <f:selectItem itemValue="2" itemLabel="ชื่อ" />
+                            <f:selectItem itemValue="3" itemLabel="นามสกุล" />
+                            <f:selectItem itemValue="4" itemLabel="ชื่อ/ลำดับ" />
+                        </h:selectOneMenu>
+                        <h:inputText value="#{empManageBean.keyWord}" />
+                        
+                        <h:commandButton action="admin" value="Search" actionListener="#{empManageBean.proloadEmp(event)}" >
+                            <f:setPropertyActionListener target="#{empManageBean.fingerPicked}" value="false"/>
+                        </h:commandButton>
+
+                    </h:panelGrid> 
+                </h:form>
+                <!--Finger Print Search List-->
+                <c:if test="${empManageBean.fingerPicked != 'true'}" >
+                    <c:if test="${not empty empManageBean.fingerPrintList}" >
+
+                        <center>
+                            <h:form id="formSearch">
+                            
+                            <rich:dataScroller for="searcFingerListTable" maxPages="10" execute="@form" />
+                            <rich:dataTable  value="#{empManageBean.fingerPrintList}" var="fpl" id="searcFingerListTable" rows="100"  style="width:100%" >
+                            <h:column >
+                                <f:facet name="header">
+                                    ลำดับ
+                                </f:facet>
+                                
+                                    <h:commandLink value="#{fpl.hip_no}" id="EditEmployee"  >
+                                        <rich:tooltip followMouse="true" mode="client" horizontalOffset="5" verticalOffset="5" layout="block">
+                                            แก้ไข
+                                        </rich:tooltip>
+                                        <f:setPropertyActionListener target="#{empManageBean.hip_no}" value="#{fpl.hip_no}" />
+                                        <f:setPropertyActionListener target="#{empManageBean.hip_name}" value="#{fpl.hip_name}" />
+                                        <f:setPropertyActionListener target="#{empManageBean.no}" value="#{fpl.no}" />
+                                        <f:setPropertyActionListener target="#{empManageBean.empname}" value="#{fpl.empname}" />
+                                        <f:setPropertyActionListener target="#{empManageBean.department}" value="#{fpl.department}" />
+                                        <f:setPropertyActionListener target="#{empManageBean.fingerPicked}" value="true"/>
+                                        <f:setPropertyActionListener target="#{empManageBean.searchFinger}" value="false"/>
+                                    </h:commandLink>
+                                
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    ชื่อ/ลำดับ
+                                </f:facet>
+                                #{fpl.hip_name}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    เลขที่
+                                </f:facet>
+                                #{fpl.no}                                    
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    ชื่อ-สกุล
+                                </f:facet>
+                                                              
+                                    <h:commandLink value="#{fpl.empname}" id="Editlink"  >
+                                        <rich:tooltip followMouse="true" mode="client" horizontalOffset="5" verticalOffset="5" layout="block">
+                                            แก้ไข
+                                        </rich:tooltip>
+                                        <f:setPropertyActionListener target="#{empManageBean.hip_no}" value="#{fpl.hip_no}" />
+                                        <f:setPropertyActionListener target="#{empManageBean.hip_name}" value="#{fpl.hip_name}" />
+                                        <f:setPropertyActionListener target="#{empManageBean.no}" value="#{fpl.no}" />
+                                        <f:setPropertyActionListener target="#{empManageBean.empname}" value="#{fpl.empname}" />
+                                        <f:setPropertyActionListener target="#{empManageBean.department}" value="#{fpl.department}" />
+                                        <f:setPropertyActionListener target="#{empManageBean.fingerPicked}" value="true"/>
+                                        <f:setPropertyActionListener target="#{empManageBean.searchFinger}" value="false"/>
+                                    </h:commandLink>
+                                
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    หน่วยงาน
+                                </f:facet>
+                                #{fpl.department} 
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    สถาณะ
+                                </f:facet>
+                                #{fpl.expire}                                    
+                            </h:column>
+                            
+                        </rich:dataTable>
+                            
+                        </h:form>
+                        </center>
+                    </c:if>
+                </c:if>
+                <!--Active New User
+                <c:if test="${userManageBean.kkhEmpPicked != 'false'}" >
+                    <h:panelGrid columns="1" width="100%" >
+                        <h:outputStylesheet library="css" name="panel.css" />
+                        <rich:panel header="Activate User" style="width: 100%;" >
+                            <h:form id="changePrivilege">
+                                <h:panelGrid columns="3" width="100%" bgcolor="#F0F6FE" >                                    
+                                    <h:outputLabel style="font-weight: bold;" value="เลขที่"  />
+                                    <h:outputLabel style="font-weight: bold;" value="ชื่อ-นามสกุล" />
+                                    <h:outputLabel style="font-weight: bold;" value="หน่วยงาน" />
+                                    <h:outputText value=" #{userManageBean.no}" />
+                                    <h:outputText value=" #{userManageBean.empname}" />
+                                    <h:outputText value=" #{userManageBean.department}" />
+                                </h:panelGrid>
+                            <br/>
+                                <h:outputLabel style="font-weight: bold;color: red;" value="สิทธิการใช้งาน" />
+                                <h:panelGrid columns="2" >
+                                    <h:outputLabel value="ผู้ดูแลระบบ" />
+                                    <h:selectBooleanCheckbox value="#{userManageBean.adm_priv}" />
+                                    <h:outputLabel value="รายงานหน่วยงาน" />
+                                    <h:selectBooleanCheckbox value="#{userManageBean.dept_priv}" />
+                                    <h:outputLabel value="รายงานองค์กร" />
+                                    <h:selectBooleanCheckbox value="#{userManageBean.org_priv}" />
+                                    <h:outputLabel value="ระงับใช้" />
+                                    <h:selectBooleanCheckbox value="#{userManageBean.suspended_priv}" />                                 
+                                </h:panelGrid>
+                                <h:commandButton action="#{userManageBean.savePrivileges(action)}" value="Save" >
+                                    <f:setPropertyActionListener target="#{userManageBean.kkhEmpPicked}" value="false"/>
+                                </h:commandButton>
+                            </h:form>
+                        </rich:panel>
+                        </h:panelGrid> 
+                </c:if>-->
+            </c:when>
+            <!--List Employee Finger Print-->
+            <c:when test="${empManageBean.listFinger == 'true'}">
+                <c:if test="${empManageBean.fingerPicked != 'true'}" >
+                    <center>
+                        
+                        <h:form id="form">
+                            
+                            <rich:dataScroller for="FingerListTable" maxPages="20" execute="@form" />
+                            <rich:dataTable  value="#{empManageBean.fingerPrintList}" var="fpl" id="FingerListTable" rows="300" style="width:100%" >
+                            <h:column >
+                                <f:facet name="header">
+                                    ลำดับ
+                                </f:facet>
+                                
+                                    <h:commandLink value="#{fpl.hip_no}" id="EditEmployee"  >
+                                        <rich:tooltip followMouse="true" mode="client" horizontalOffset="5" verticalOffset="5" layout="block">
+                                            แก้ไข
+                                        </rich:tooltip>
+                                        <f:setPropertyActionListener target="#{empManageBean.hip_no}" value="#{fpl.hip_no}" />
+                                        <f:setPropertyActionListener target="#{empManageBean.hip_name}" value="#{fpl.hip_name}" />
+                                        <f:setPropertyActionListener target="#{empManageBean.no}" value="#{fpl.no}" />
+                                        <f:setPropertyActionListener target="#{empManageBean.empname}" value="#{fpl.empname}" />
+                                        <f:setPropertyActionListener target="#{empManageBean.department}" value="#{fpl.department}" />
+                                        <f:setPropertyActionListener target="#{empManageBean.fingerPicked}" value="true"/>
+                                    </h:commandLink>
+                                
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    ชื่อ/ลำดับ
+                                </f:facet>
+                                #{fpl.hip_name}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    เลขที่
+                                </f:facet>
+                                #{fpl.no}                                    
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    ชื่อ-สกุล
+                                </f:facet>
+                                                              
+                                    <h:commandLink value="#{fpl.empname}" id="Editlink"  >
+                                        <rich:tooltip followMouse="true" mode="client" horizontalOffset="5" verticalOffset="5" layout="block">
+                                            แก้ไข
+                                        </rich:tooltip>
+                                        <f:setPropertyActionListener target="#{empManageBean.hip_no}" value="#{fpl.hip_no}" />
+                                        <f:setPropertyActionListener target="#{empManageBean.hip_name}" value="#{fpl.hip_name}" />
+                                        <f:setPropertyActionListener target="#{empManageBean.no}" value="#{fpl.no}" />
+                                        <f:setPropertyActionListener target="#{empManageBean.empname}" value="#{fpl.empname}" />
+                                        <f:setPropertyActionListener target="#{empManageBean.department}" value="#{fpl.department}" />
+                                        <f:setPropertyActionListener target="#{empManageBean.fingerPicked}" value="true"/>
+                                    </h:commandLink>
+                                
+                            </h:column>
+                            
+                            <h:column>
+                                <f:facet name="header">
+                                    หน่วยงาน
+                                </f:facet>
+                                #{fpl.department}                                    
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    สถาณะ
+                                </f:facet>
+                                #{fpl.expire}                                    
+                            </h:column>
+                            
+                        </rich:dataTable>
+                            
+                        </h:form><!--
+                        <rich:jQuery selector="#FingerListTable tr:odd" query="addClass('order-table-odd-row')" />
+                        <rich:jQuery selector="#FingerListTable tr:even" query="addClass('order-table-even-row')" />
+                        <rich:jQuery selector="#FingerListTable tr" 
+                                     query="mouseover(function(){jQuery(this).addClass('order-table-active-row')})"/>
+                        <rich:jQuery selector="#FingerListTable tr" 
+                                     query="mouseout(function(){jQuery(this).removeClass('order-table-active-row')})"/>
+                                 -->
+
+                    </center>
+                </c:if>
+                <!-- Edit Employee FingerPrint-->
+                <c:if test="${empManageBean.fingerPicked != 'false'}" >
+                    <h:panelGrid columns="1" width="100%" >
+                        <h:outputStylesheet library="css" name="panel.css" />
+                        <rich:panel header="Edit Employee" style="width: 100%;" >
+                            <h:form id="editFingerDetail">
+                                <h:panelGrid columns="2" width="100%" bgcolor="#F0F6FE" >
+                                    <h:outputLabel style="font-weight: bold;" value="ลำดับ" />
+                                    <h:outputText value="#{empManageBean.hip_no}" />
+                                    <h:outputLabel style="font-weight: bold;" value="ลำดับ/ชื่อ"  />
+                                    <h:inputText value="#{empManageBean.hip_name}" />
+                                    <h:outputLabel style="font-weight: bold;" value="เลขที่เงินเดือน" />
+                                    <h:inputText value="#{empManageBean.no}" />
+                                    <h:outputLabel style="font-weight: bold;" value="ชื่อ-นามสกุล" />
+                                    <h:outputText value="#{empManageBean.empname}" />
+                                    <h:outputLabel style="font-weight: bold;" value="หน่วยงาน" />
+                                    <h:outputText value="#{empManageBean.department}" />
+                                </h:panelGrid>
+                            <br/>
+                                
+                            <h:commandButton action="#{empManageBean.saveFinger(action)}" value="บันทึก" >
+                                    <f:setPropertyActionListener target="#{empManageBean.listFinger}" value="true"/>
+                                    <f:setPropertyActionListener target="#{empManageBean.fingerPicked}" value="false"/>
+                                </h:commandButton>
+                            </h:form>
+                        </rich:panel>
+                        </h:panelGrid> 
+                </c:if>
+            </c:when>
+        </c:choose>        
+    </ui:composition>
+
+</html>
+
+
+

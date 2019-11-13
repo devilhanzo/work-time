@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <ui:composition>
+        <h:outputStylesheet library="css" name="panel.css" />
+        <c:if test="${personalSettingBean.sqlUpdateTest > 0}" >
+
+            <h:form >                    
+                <h:outputText style="font-weight: bold; color: red;" value="บันทึกสำเร็จ" />
+                <br/>
+                การตั้งค่าจะมีผลเมื่อออกจากระบบแล้วเข้าใหม่
+                
+                    <h:commandButton value="ออกจากระบบ" action="#{sessionLogoutControl.logout}" >
+
+                    </h:commandButton>
+            
+            </h:form>
+
+        </c:if>
+        <c:if test="${personalSettingBean.sqlUpdateTest == 0}" >
+            <h:panelGrid columns="4" width="100%"  bgcolor="#F0F6FE" >                                    
+                <h:outputLabel style="font-weight: bold;" value="เลขที่"  />
+                <h:outputLabel style="font-weight: bold;" value="ชื่อ-นามสกุล" />
+                <h:outputLabel style="font-weight: bold;" value="ตำแหน่ง" />
+                <h:outputLabel style="font-weight: bold;" value="หน่วยงานตามเลขที่เงินเดือน" />
+
+                <h:outputText value=" #{userLogin.sessionNo}" />
+                <h:outputText value=" #{userLogin.sessionUname}" />
+                <h:outputText value=" #{userLogin.sessionPosition}" />
+                <h:outputText value=" #{userLogin.sessionDept}" />
+            </h:panelGrid>
+            <br/>            
+            <h:outputStylesheet library="css" name="panel.css" />
+            <rich:panel header="กำหนดรูปแบบรายงาน" >
+                <h:form id="personalsetting">
+                    <h:panelGrid columns="2" >                
+                        <h:outputLabel value="ช่วงเวลาปกติ" />
+                        <h:selectOneMenu value="#{personalSettingBean.default_tbid}" valueChangeListener="#{personalSettingBean.default_tbidChanged}" >
+                            <f:selectItem itemValue="1" itemLabel="เช้า 8:00 น.-16:00 น."/>
+                            <f:selectItem itemValue="2" itemLabel="เช้า 8:30 น.-16:30 น."/>
+                            <f:selectItem itemValue="3" itemLabel="บ่าย 16:00 น.-00:00 น."/>
+                            <f:selectItem itemValue="4" itemLabel="ดึก 00:00 น.-08:00 น."/>
+                        </h:selectOneMenu>
+                        <h:outputLabel value="เสาร์อาทิตย์คิดเป็น OT" />
+                        <h:selectBooleanCheckbox value="#{personalSettingBean.weekendOt}" />
+                        <h:outputLabel value="วันหยุดราชการคิดเป็น OT" />
+                        <h:selectBooleanCheckbox value="#{personalSettingBean.holidayOt}" />
+                        <h:outputLabel value="แสดงเวลาที่ลงไม่ครบ" />
+                        <h:selectBooleanCheckbox value="#{personalSettingBean.showInComplete}" />
+                        <h:commandButton value="บันทึก" action="#{personalSettingBean.saveSetting(action)}" />
+                    </h:panelGrid>
+                </h:form>
+            </rich:panel>
+        </c:if>
+    </ui:composition>
+</html>
+

@@ -1,0 +1,19 @@
+/* 
+    Document   : link
+    Created on : Mar 19, 2012, 12:09:25 AM
+    Author     : PucK
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+input, select, textarea, button, keygen, isindex, legend, a {
+	font-size: 12px;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Geneva,Verdana,Arial,sans-serif;
+	color: #000000;
+}
+

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- NOTES(TODO: move to some readme in future): id for sample should equals 
+	to xhtml page name with the sample the same for demo id - it should be equals 
+	to name of the folder where samples placed -->
+<root>
+    <group>
+        <name>Admin :</name>
+        <admins>
+            <admin>
+                <id>manage_statistic</id>
+                <name>Statistic</name>
+                <manages>
+                    <manage>
+                        <id>stat_viewer</id>
+                        <name>Statistic Viewer</name>
+                    </manage>
+                </manages>
+            </admin>
+            <admin>
+                <id>manage_log</id>
+                <name>Log</name>
+                <manages>
+                    <manage>
+                        <id>log_viewer</id>
+                        <name>Log Viewer</name>
+                    </manage>
+                </manages>
+            </admin>
+            <admin>
+                <id>manage_user</id>
+                <name>ผู้ใช้</name>
+                <manages>
+                    <manage>
+                        <id>manageuser</id>
+                        <name>ผู้ใช้</name>
+                    </manage>
+                </manages>
+            </admin>
+            <admin>
+                <id>manage_finger</id>
+                <name>ทะเบียนลายนิ้วมือ</name>
+                <manages>
+                    <manage>
+                        <id>manage_employee</id>
+                        <name>ทะเบียนลายนิ้วมือ</name>
+                    </manage>
+                    <!--<manage>
+                        <id>manage_system</id>
+                        <name>SystemSetting</name>
+                    </manage>
+                    -->
+                </manages>
+            </admin>
+        </admins>
+    </group> 
+</root>

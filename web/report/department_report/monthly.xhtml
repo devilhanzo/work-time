@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:c="http://java.sun.com/jsp/jstl/core" >
+    <ui:composition>
+        <h:outputStylesheet library="css" name="report-table.css" />
+        <p>รายงานเวลาปฏิบัติงานคิดช่วงเวลา แสดงเวลาเข้า-ออก,คำนวณเวลาทำงาน</p>
+        <h:form>
+            <h:outputStylesheet library="css" name="collapsible.css" />
+            <rich:collapsiblePanel header="หน่วยงาน : #{departmentReportBean.deptname} (คลิ๊กแสดง/ซ่อนรายชื่อ)" expanded="false" switchType="ajax">
+                <p>บุคคลากรในหน่วยงาน</p>
+                <h:dataTable value="#{departmentReportBean.employeeList}" var="demp" 
+                             styleClass="order-table"
+                             headerClass="order-table-header"
+                             columnClasses="order-table-column,order-table-column,
+                             order-table-column-last"
+                             width="100%"
+                             id="deptemptable" >
+                    <h:column >
+                        <f:facet name="header">
+                            เลขที่เงินเดือน
+                        </f:facet>
+                        <h:outputText value="#{demp.no}">
+
+                        </h:outputText>
+                    </h:column>
+                    <h:column >
+                        <f:facet name="header">
+                            ชื่อ-นามสกุล
+                        </f:facet>
+                        <h:outputText value="#{demp.empname}">
+
+                        </h:outputText>
+                    </h:column>
+                    <h:column >
+                        <f:facet name="header">
+                            ตำแหน่ง
+                        </f:facet>
+                        <h:outputText value="#{demp.position}">
+
+                        </h:outputText>
+                    </h:column>
+                </h:dataTable>
+                <rich:jQuery selector="#deptemptable tr:odd" query="addClass('order-table-odd-row')" />
+                <rich:jQuery selector="#deptemptable tr:even" query="addClass('order-table-even-row')" />
+                <rich:jQuery selector="#deptemptable tr" 
+                             query="mouseover(function(){jQuery(this).addClass('order-table-active-row')})"/>
+                <rich:jQuery selector="#deptemptable tr" 
+                             query="mouseout(function(){jQuery(this).removeClass('order-table-active-row')})"/>
+            </rich:collapsiblePanel>
+        </h:form>
+        <br/>
+        <h:outputStylesheet library="css" name="panel.css" />
+        <rich:panel header="เลือกวันที่ และช่วงเวลา" >
+            <h:form id="fulldatepick">
+                <h:panelGrid columns="11">
+                    <h:outputLabel value="ช่วงเวลา" />
+                    <h:selectOneMenu value="#{departmentReportBean.period}"  >
+                        <c:forEach var="period" items="#{departmentReportBean.timeTableList}" >
+                            <f:selectItem itemValue="#{period.tbid}" itemLabel="#{period.tablename}"/>
+                        </c:forEach>
+                    </h:selectOneMenu>
+
+                    <h:outputLabel value="เดือน" />
+                    <h:selectOneMenu value="#{departmentReportBean.month}" valueChangeListener="#{departmentReportBean.monthChanged}"  >
+                        <c:forEach items="#{selectMonths.monthsList}" var="sm">
+                            <f:selectItem itemValue="#{sm.no}" itemLabel="#{sm.name}"/>
+                        </c:forEach>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="ปี" />
+                    <h:selectOneMenu value="#{departmentReportBean.year}" valueChangeListener="#{departmentReportBean.yearChanged}"  >
+                        <c:forEach items="#{selectYears.yearsList}" var="sy">
+                            <f:selectItem itemValue="#{sy.christianyear}" itemLabel="#{sy.buddhismyear}"/>
+                        </c:forEach>
+                    </h:selectOneMenu>
+
+                    <h:commandButton value="รายงาน" actionListener="#{departmentReportBean.monthList2Null(action)}" >                        
+                        <f:setPropertyActionListener target="#{departmentReportBean.monthReportClick}" value="#{true}"/>
+                        <f:setPropertyActionListener target="#{departmentReportBean.by_org}" value="#{false}"/>
+                        <f:setPropertyActionListener target="#{departmentReportBean.by_session}" value="#{true}"/>
+                    </h:commandButton>
+                    <c:if test="${departmentReportBean.monthReportClick}" >
+                        <h:commandButton id="pdf-print" action="#{departmentReportBean.print(actionEvent)}" image="/images/icons/printer.png" >
+                            <f:setPropertyActionListener target="#{departmentReportBean.reportType}" value="month"/>
+                            <rich:tooltip followMouse="true" mode="client" horizontalOffset="5" verticalOffset="5" layout="block">
+                                พิมพ์
+                            </rich:tooltip>
+                        </h:commandButton>
+                        <h:commandButton id="pdf-download" action="#{departmentReportBean.pdf(actionEvent)}" image="/images/icons/file-pdf.png">
+                            <f:setPropertyActionListener target="#{departmentReportBean.reportType}" value="month"/>
+                            <rich:tooltip followMouse="true" mode="client" horizontalOffset="5" verticalOffset="5" layout="block">
+                                ดาวน์โหลด PDF
+                            </rich:tooltip>
+                        </h:commandButton>
+                    </c:if>
+                </h:panelGrid>
+            </h:form>
+        </rich:panel>
+        <c:if test="${departmentReportBean.showInComplete}">
+        <br/>
+            <b>คำเตือน</b> ตัวเลือก<font color="red">แสดงเวลาที่ลงไม่ครบ</font>ถูกเปิดใช้ เพื่อความถูกต้องของรายงานกรุณาปิดตัวเลือกดังกล่าว
+        <br/>
+        </c:if>
+        <c:if test="${departmentReportBean.monthReportClick}" >
+            <br/>
+            <center>
+                <h:form>
+                    <!--<div style="width:600px;height: 470px;overflow-x: scroll;overflow-y: scroll;">-->
+                    <h:dataTable value="#{departmentReportBean.checkInOutListMonth}" var="deptmonthlist" 
+                                 width="100%"
+                                 styleClass="order-table-ft"
+                                 headerClass="order-table-header-ft"
+                                 columnClasses="order-table-column-ft,order-table-column-ft,
+                                 order-table-column-ft,order-table-column-ft,
+                                 order-table-column-ft,order-table-column-ft,
+                                 order-table-column-ft,order-table-column-ft,
+                                 order-table-column-ft,order-table-column-ft,
+                                 order-table-column-ft,order-table-column-last-ft"
+                                 id="DeptMonthReport" >
+                        <h:column >
+                            <f:facet name="header">
+                                <h:commandLink id="order-by-date" value="วันที่" action="#{departmentReportBean.dateSortMonth}">
+                                    <f:setPropertyActionListener target="#{departmentReportBean.orderByDate}" value="#{true}"/>
+                                    <f:setPropertyActionListener target="#{departmentReportBean.orderByName}" value="#{false}"/>
+                                    <rich:tooltip followMouse="true" mode="client" horizontalOffset="5" verticalOffset="5" layout="block">
+                                        เรียงลำดับจากวันที่
+                                    </rich:tooltip>
+                                </h:commandLink>
+                            </f:facet>
+                            <h:outputText value="#{deptmonthlist.checkdate}">
+                                <f:convertDateTime type="date" pattern="d" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column >
+                            <f:facet name="header">
+                                วัน
+                            </f:facet>                        
+                            <h:outputText value="#{deptmonthlist.checkdate}">
+                                <f:convertDateTime type="date" pattern="E" locale="th_TH" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column >
+                            <f:facet name="header">
+                                <h:commandLink id="order-by-no" value="เลขที่" action="#{departmentReportBean.noSortMonth}">
+                                    <f:setPropertyActionListener target="#{departmentReportBean.orderByDate}" value="#{false}"/>
+                                    <f:setPropertyActionListener target="#{departmentReportBean.orderByName}" value="#{true}"/>
+                                    <rich:tooltip followMouse="true" mode="client" horizontalOffset="5" verticalOffset="5" layout="block">
+                                        เรียงลำดับจากเลขที่เงินเดือน
+                                    </rich:tooltip>
+                                </h:commandLink>
+                            </f:facet>
+                            <h:outputText value="#{deptmonthlist.no}">
+                            </h:outputText>
+                        </h:column>
+                        <h:column >
+                            <f:facet name="header">
+                                <h:commandLink id="order-by-name" value="ชื่อ-นามสกุล" action="#{departmentReportBean.nameSortMonth}">
+                                    <f:setPropertyActionListener target="#{departmentReportBean.orderByDate}" value="#{false}"/>
+                                    <f:setPropertyActionListener target="#{departmentReportBean.orderByName}" value="#{true}"/>
+                                    <rich:tooltip followMouse="true" mode="client" horizontalOffset="5" verticalOffset="5" layout="block">
+                                        เรียงลำดับจากชื่อ
+                                    </rich:tooltip>
+                                </h:commandLink>
+                            </f:facet>
+                            <h:outputText value="#{deptmonthlist.name}">
+                            </h:outputText>
+                        </h:column>
+                        <h:column >
+                            <f:facet name="header">
+                                เข้า
+                            </f:facet>                        
+                            <h:outputText value="#{deptmonthlist.checkin}">
+                                <f:convertDateTime type="time" pattern="HH:mm" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column >
+                            <f:facet name="header">
+                                ออก
+                            </f:facet>                        
+                            <h:outputText value="#{deptmonthlist.checkout}">
+                                <f:convertDateTime type="time" pattern="HH:mm" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                เข้าสาย
+                            </f:facet>
+                            <h:outputText value="#{deptmonthlist.late}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                ออกก่อน
+                            </f:facet>
+                            <h:outputText value="#{deptmonthlist.earlyout}"/>                            
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                ET
+                            </f:facet>
+                            <h:outputText value="#{deptmonthlist.earlytime}"/>                            
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                OT
+                            </f:facet>
+                            <h:outputText value="#{deptmonthlist.overtime}"/>                            
+                        </h:column>
+                        <h:column>                        
+                            <f:facet name="header">
+                                ชม.ทำงาน
+                            </f:facet>
+                            <h:outputText value="#{deptmonthlist.total}"/>
+
+                        </h:column>                    
+                        <h:column>                        
+                            <f:facet name="header">
+                                หมายเหตุ
+                            </f:facet>
+                            <h:outputText value="#{deptmonthlist.remark}"/>
+                        </h:column>                   
+                    </h:dataTable>
+                    <!--</div>-->
+                </h:form>
+
+                <rich:jQuery selector="#DeptMonthReport tr:odd" query="addClass('order-table-odd-row-ft')" />
+                <rich:jQuery selector="#DeptMonthReport tr:even" query="addClass('order-table-even-row-ft')" />
+                <rich:jQuery selector="#DeptMonthReport tr" 
+                             query="mouseover(function(){jQuery(this).addClass('order-table-active-row-ft')})"/>
+                <rich:jQuery selector="#DeptMonthReport tr" 
+                             query="mouseout(function(){jQuery(this).removeClass('order-table-active-row-ft')})"/>
+            </center>
+            <br/>
+            <font color="red" style="font-weight: bold" >H</font> : วันหยุดราชการ, วันหยุดราชการชดเชย
+        </c:if>
+    </ui:composition>
+</html>
+

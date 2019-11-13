@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:composition template="/templates/main.xhtml">
+        <ui:define name="body">
+            <h:outputStylesheet library="css" name="tab.css"  />
+            <rich:tabPanel switchType="client" styleClass="navigation"
+                           activeItem="#{adminNavigator.currentManage.id}"
+                           onbeforeitemchange="return false;">
+                <c:forEach items="#{adminNavigator.currentAdmin.manages}" var="m">
+                    <rich:tab header="#{m.name}" name="#{m.id}"
+                              onheaderclick="document.location.href='#{facesContext.externalContext.requestContextPath}/wt_adm/admin.jsf?type=#{adminNavigator.currentAdmin.id}&amp;kind=#{m.id}'" />
+                </c:forEach>
+            </rich:tabPanel> 
+            <fieldset class="example-cnt">
+                <ui:include src="#{adminNavigator.manageURI}" />
+            </fieldset>
+        </ui:define>
+    </ui:composition>
+
+</html>
+

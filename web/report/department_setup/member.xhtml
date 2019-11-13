@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:c="http://java.sun.com/jsp/jstl/core" >
+
+    <ui:composition>
+        <f:view>
+        <p><b>บุคลากรที่อยู่ในหน่วยงานของท่าน</b> รายชื่อทั้งหมดแสดงเฉพาะผู้ลงทะเบียนลายนิ้วมือแล้ว และ ได้แจ้งเลขที่เงินเดือนตอนลงทะเบียน หากไม่พบ
+            รายชื่อเป็นไปได้ว่า ยังไม่ได้ลงทะเบียนลายนิ้วมือ หรือลงทะเบียนแล้วแจ้งเลขที่เงินเดือนไม่ถูก หรือไม่ได้แจ้งเลขที่เงินเดือน หรือเป็นบุคลากรใหม่ที่ยังไม่มีเลขที่เงินเดือน 
+            ในการแก้ไขในกรณีที่ลงทะเบียนแล้วไม่พบรายชื่อโปรดตรวจสอบเลขที่ในระบบลงเวลาของบุคลากรที่ไม่พบ(เลขที่เครื่องขานตอบตอนแสกนลายนิ้วมือ) แล้วโทรมาแจ้งที่ 1178,2000,2013 (ปั๊ก)</p>
+        <h:outputStylesheet library="css" name="panel.css" />
+        <rich:panel >
+            <f:facet name="header">
+                <h:outputText value="เลือกบุคลากรเข้าหน่วยงาน : #{departmentSettingBean.departmentName}"></h:outputText>
+            </f:facet>
+            <h:form id="InSystemEmpSearchForm">
+                <h:panelGrid columns="4" >
+                    <h:selectOneMenu value="#{employeeListSelectBean.searchType}"  >
+                        <f:selectItem itemValue="2" itemLabel="เลขที่เงินเดือน" />
+                        <f:selectItem itemValue="0" itemLabel="ชื่อ" />
+                        <f:selectItem itemValue="1" itemLabel="นามสกุล" />                                    
+                    </h:selectOneMenu>
+                    <h:inputText value="#{employeeListSelectBean.keyWord}" />
+                    <h:selectOneMenu value="#{employeeListSelectBean.kkhDeptId}" 
+                                     valueChangeListener="#{employeeListSelectBean.kkhDeptIdChanged}"
+                                     >
+                        <a4j:ajax event="valueChange" render="pickemp" execute="@all" />
+                        <f:selectItem itemValue="0" itemLabel=""/>
+                        <c:forEach items="#{listKkhDeptBean.listKkhDept}" var="isl">
+                            <f:selectItem itemValue="#{isl.kkhdeptid}" itemLabel="#{isl.kkhdeptname}"/>
+                        </c:forEach>
+                    </h:selectOneMenu>
+                    <a4j:commandButton value="ค้นหา" render="pickemp" execute="@all" actionListener="#{employeeListSelectBean.preloadEmpList(event)}" />
+
+
+                </h:panelGrid> 
+            </h:form>
+            <h:form id="selectemp" >
+                <h:outputStylesheet library="css" name="picklist.css" />
+                <center>
+                    <rich:pickList  id="pickemp" sourceCaption="บุคลากรในระบบ" targetCaption="บุคลากรในหน่วยงาน" 
+                                    value="#{employeeListSelectBean.selectedCode}" 
+                                    var="employee" listHeight="400px" 
+                                    addAllText="&rArr; เพิ่มทั้งหมด" addText="&rarr; เพิ่ม" 
+                                    removeAllText="&lArr; เอาออกทั้งหมด" removeText="&larr; เอาออก"  >
+                        <c:forEach items="#{employeeListSelectBean.employees}" var="emps">
+                            <f:selectItem itemValue="#{emps.code}" itemLabel="#{emps.noempname}"/>
+                        </c:forEach>                                 
+                    </rich:pickList>
+                </center>
+                * เมื่อเพิ่มบุคลากรเข้าหน่วยงานแล้ว หากต้องการค้นหาอีกให้กดบันทึกก่อนทุกครั้ง
+                <br/>
+                <a4j:commandButton value="บันทึก" render="pickemp" execute="@all" />
+                <a4j:status>
+                    <f:facet name="start">
+                        <h:graphicImage value="/images/ai.gif" alt="ai" />
+                    </f:facet>
+                </a4j:status>
+            </h:form>
+        </rich:panel>
+        </f:view>
+    </ui:composition>
+
+</html>
+

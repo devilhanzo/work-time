@@ -1,0 +1,149 @@
+/* 
+    Document   : report-table
+    Created on : Feb 13, 2012, 9:50:34 AM
+    Author     : PucK
+    Description:
+        Purpose of the stylesheet follows.
+*/
+.order-table{   
+    border-collapse:collapse;
+    border-bottom: 1px solid #BED6F8;
+}
+
+.order-table-header{
+    text-align:left;
+    background:none repeat scroll 0 0 #8696AD;
+    background-position: top left;
+    background-repeat: repeat-x;
+    background-image: url(../images/gradientA.png);
+    border-top: 1px solid #BED6F8;
+    border-bottom:1px solid #BED6F8;
+    border-right: 1px solid #BED6F8;
+    border-left: 1px solid #BED6F8;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 10px;
+    padding-right: 10px;    
+}
+.order-table-column a{
+    color: #8696AD;
+    outline:none;
+    text-decoration:none; 
+}
+.order-table-column a:hover{
+    text-decoration:underline; 
+}
+.order-table-header a{
+    color: #8696AD;
+    font-weight: bold;
+    outline:none;
+    text-decoration:none;
+}
+.order-table-header a:hover{
+    text-decoration:underline;
+}
+
+.order-table-odd-row{
+    text-align:left;
+    background:none repeat scroll 0 0 #FFFFFF;
+    border-top:1px solid #BED6F8;
+
+}
+
+.order-table-even-row{
+    text-align:left;
+    background:none repeat scroll 0 0 #F0F6FE;
+    border-top:1px solid #BED6F8;
+
+}
+
+.order-table-active-row{
+    text-align:left;
+    background:none repeat scroll 0 0 #FFEBDA;
+    border-top:1px solid #BED6F8;
+}
+
+.order-table-column{
+    padding-left: 10px;
+    padding-right: 10px;
+    border-left:1px solid #BED6F8;
+}
+
+.order-table-column-last{
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-right: 1px solid #BED6F8;
+    border-left:1px solid #BED6F8;
+}
+
+.order-table-ft{   
+    border-collapse:collapse;
+    border-bottom: 1px solid #BED6F8;
+}
+
+.order-table-header-ft{
+    text-align:left;
+    background:none repeat scroll 0 0 #8696AD;
+    background-position: top left;
+    background-repeat: repeat-x;
+    background-image: url(../images/gradientA.png);
+    border-top: 1px solid #BED6F8;
+    border-bottom:1px solid #BED6F8;
+    border-right: 1px solid #BED6F8;
+    border-left: 1px solid #BED6F8;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+.order-table-header-ft a{
+    color: #8696AD;
+    font-weight: bold;
+    outline:none;
+    text-decoration:none;
+}
+
+.order-table-header-ft a:hover{
+    text-decoration:underline;
+}
+
+.order-table-odd-row-ft{
+    text-align:left;
+    background:none repeat scroll 0 0 #FFFFFF;
+    border-top:1px solid #BED6F8;
+
+}
+
+.order-table-even-row-ft{
+    text-align:left;
+    background:none repeat scroll 0 0 #F9F9F9;
+    border-top:1px solid #BED6F8;
+
+}
+
+.order-table-active-row-ft{
+    background:none repeat scroll 0 0 #FFEBDA;
+    border-top:1px solid #BED6F8;
+}
+
+.order-table-column-ft{
+    padding-left: 1px;
+    padding-right: 1px;
+    border-left:1px solid #BED6F8;
+}
+
+.order-table-column-last-ft{
+    padding-left: 1px;
+    padding-right: 1px;
+    border-right: 1px solid #BED6F8;
+    border-left:1px solid #BED6F8;
+}
+.order-table-column-width{
+    padding-left: 10px;
+    padding-right: 10px;
+    border-left: 1px solid #BED6F8;
+    width: 270px;
+}
+

@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Work Time</title>
+
+        <link href="#{facesContext.externalContext.requestContextPath}/favicon.ico" rel="shortcut icon" />
+
+    </h:head>
+
+    <h:body>
+        <h:outputStylesheet library="css" name="application.css" />
+        <div id="page">
+            <div id="header">
+                <a href="#" class="logo">
+                    <img src="#{facesContext.externalContext.requestContextPath}/images/wt-logo.png" alt="WT logo"/>
+                </a>
+                <div class="right-controls">
+                    <ul class="top-links layout">
+                        <h:form >
+
+                            <li class="download-link"><a href="/work-time" target="_self">Home</a></li>
+                            <c:if test="${userLogin.sessionUname != null}" >
+                                <li class="last" ><h:commandLink value="Logout" actionListener="#{sessionLogoutControl.logout}"/></li>
+                            </c:if>
+                        </h:form>
+                    </ul>
+                    <ui:include src="/templates/includes/admin-navigation.xhtml" />
+                </div><!--Right-Controls-->
+            </div><!--Header-->
+            <div id="page-content">
+                <div class="left-menu">
+                    <ui:include src="/templates/includes/navigation.xhtml" />
+                </div><!--Left-menu-->
+                <div class="content-container" >
+                    <ui:insert name="body">
+                        Body content missed
+                    </ui:insert>
+                </div><!--Content Container-->
+                <div class="clear"></div>
+            </div><!--Page Content-->
+            <div id="footer">
+                #{poweredBy.registeredTo}
+            </div><!--Footer-->
+        </div><!--Page-->
+    </h:body>
+</html>
+

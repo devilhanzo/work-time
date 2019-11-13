@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:rich="http://richfaces.org/rich">
+
+    <ui:composition>
+        <p><b>ตั้งค่าหน่วยงานที่ท่านดูแล</b> </p>
+        <c:choose >
+            <c:when test="${departmentSettingBean.test > 0}" >
+                <h:form >                    
+                    <h:outputText style="font-weight: bold; color: red;" value="บันทึกสำเร็จ" />
+                    <br/>
+                    การตั้งค่าจะมีผลเมื่อออกจากระบบแล้วเข้าใหม่
+
+                    <h:commandButton value="ออกจากระบบ" action="#{sessionLogoutControl.logout}" >
+
+                    </h:commandButton>
+
+                </h:form>
+            </c:when>
+            <c:otherwise >
+                <h:form id="departmentSetting" >
+                    <h:panelGrid columns="3" >            
+                        <h:outputLabel value="ชื่อหน่วยงาน"/>
+                        <h:inputText id="editdeptname" value="#{departmentSettingBean.departmentName}" 
+                                     requiredMessage="ใส่ชื่อหน่วยงาน" required="true" 
+                                     validatorMessage="ตั้งชื่อหน่วยงานได้สูงสุด 50 อักษร" >
+                            <f:validateLength maximum="50" />
+                        </h:inputText>
+                        <h:outputStylesheet library="css" name="validate.css" />
+                        <rich:message for="editdeptname" ajaxRendered="true" />
+                        <h:outputLabel value="ช่วงเวลาปกติ" />
+                        <h:selectOneMenu value="#{departmentSettingBean.default_tbid}" valueChangeListener="#{departmentSettingBean.defaultTableChanged}" >
+                            <c:forEach items="#{departmentSettingBean.timeTableList}" var="dttl" >
+                                <f:selectItem itemValue="#{dttl.tbid}" itemLabel="#{dttl.tablename}" />
+                            </c:forEach>
+                        </h:selectOneMenu>
+                        <h:outputText value=""/>
+                        <h:outputLabel value="เสาร์อาทิตย์คิดเป็น OT" />
+                        <h:selectBooleanCheckbox value="#{departmentSettingBean.weekendOt}" />
+                        <h:outputText value=""/>
+                        <h:outputLabel value="วันหยุดราชการคิดเป็น OT" />
+                        <h:selectBooleanCheckbox value="#{departmentSettingBean.holidayOt}" />
+                        <h:outputText value=""/>
+                        <h:outputLabel value="แสดงเวลาที่ลงไม่ครบ" />
+                        <h:selectBooleanCheckbox value="#{departmentSettingBean.showInComplete}" />
+                        <h:outputText value=""/>
+                        <h:commandButton value="บันทึก" action="#{departmentSettingBean.saveSettings(action)}" />
+
+                    </h:panelGrid>
+                </h:form>
+            </c:otherwise>
+        </c:choose>
+
+    </ui:composition>    
+</html>
+

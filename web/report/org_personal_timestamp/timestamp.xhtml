@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:c="http://java.sun.com/jsp/jstl/core" >
+    <!--org_person_report-timestamp-->
+    <ui:composition>
+        <h:outputStylesheet library="css" name="report-table.css" />
+        <p><b>ตรวจสอบข้อมูลการลงเวลาทีเครื่องแสกนลายนิ้วมือ</b></p>
+
+        <h:form id="KKhEmpSearchForm">
+            <h:panelGrid columns="4" >
+                <h:selectOneMenu value="#{listKkhEmpBean.searchType}"  >
+                    <f:selectItem itemValue="2" itemLabel="เลขที่เงินเดือน" />
+                    <f:selectItem itemValue="0" itemLabel="ชื่อ" />
+                    <f:selectItem itemValue="1" itemLabel="นามสกุล" />                                    
+                </h:selectOneMenu>
+                <h:inputText value="#{listKkhEmpBean.keyWord}" />
+                <h:selectOneMenu value="#{listKkhEmpBean.kkhDeptId}" 
+                                 valueChangeListener="#{listKkhEmpBean.kkhDeptIdChanged}"
+                                 onchange="submit()">
+                    <f:selectItem itemValue="0" itemLabel=""/>
+                    <c:forEach items="#{listKkhDeptBean.listKkhDept}" var="lkd">
+                        <f:selectItem itemValue="#{lkd.kkhdeptid}" itemLabel="#{lkd.kkhdeptname}"/>
+                    </c:forEach>
+                </h:selectOneMenu>
+                <h:commandButton value="Search" action="#{listKkhEmpBean.preloadEmployeeList(action)}" >
+                </h:commandButton>
+
+            </h:panelGrid> 
+        </h:form>
+        <!--<c:if test="${not empty listKkhEmpBean.kkhEmployeeList}" >-->
+        <h:outputStylesheet library="css" name="collapsible.css" />
+        <h:form > 
+            <rich:collapsiblePanel header="ผลการค้นหา" expanded="true" switchType="ajax" >
+                <h:dataTable  value="#{listKkhEmpBean.kkhEmployeeList}" var="kkhemp" 
+                              styleClass="order-table"
+                              headerClass="order-table-header"
+                              columnClasses="order-table-column,order-table-column,
+                              order-table-column,order-table-column-last"
+                              id="KkhEmpListTable" width="100%" >
+                    <h:column >
+                        <f:facet name="header">
+                            เลขที่เงินเดือน
+                        </f:facet>
+                        #{kkhemp.no}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            ชื่อ-สกุล
+                        </f:facet>
+
+                        <h:commandLink value="#{kkhemp.empname}" id="cmdlink" action="#{timeStampBean.preloadTimeStampList(event)}"  >
+                            <f:setPropertyActionListener target="#{timeStampBean.org_code}" value="#{kkhemp.code}" />
+                            <f:setPropertyActionListener target="#{timeStampBean.org_no}" value="#{kkhemp.no}" />
+                            <f:setPropertyActionListener target="#{timeStampBean.org_empname}" value="#{kkhemp.empname}" />
+                            <f:setPropertyActionListener target="#{timeStampBean.org_position}" value="#{kkhemp.position}" />
+                            <f:setPropertyActionListener target="#{timeStampBean.org_department}" value="#{kkhemp.department}" />
+                            <f:setPropertyActionListener target="#{timeStampBean.by_org}" value="#{true}"/>
+                            <f:setPropertyActionListener target="#{timeStampBean.by_org_noid}" value="#{false}"/>
+                            <f:setPropertyActionListener target="#{timeStampBean.by_session}" value="#{false}"/>
+                            <rich:tooltip followMouse="true" mode="client" horizontalOffset="5" verticalOffset="5" layout="block">
+                                เลือกบุคลากร
+                            </rich:tooltip>                                
+                        </h:commandLink>
+
+                    </h:column>
+                    <!--
+                    <h:column>
+                        <f:facet name="header">
+                            ตำแหน่ง
+                        </f:facet>
+                    #{kkhemp.position}
+                </h:column>
+                    -->
+                    <h:column>
+
+                        <f:facet name="header">
+                            หน่วยงาน
+                        </f:facet>
+                        #{kkhemp.department}
+                    </h:column>
+                </h:dataTable>
+                <rich:jQuery selector="#KkhEmpListTable tr:odd" query="addClass('order-table-odd-row')" />
+                <rich:jQuery selector="#KkhEmpListTable tr:even" query="addClass('order-table-even-row')" />
+                <rich:jQuery selector="#KkhEmpListTable tr" 
+                             query="mouseover(function(){jQuery(this).addClass('order-table-active-row')})"/>
+                <rich:jQuery selector="#KkhEmpListTable tr" 
+                             query="mouseout(function(){jQuery(this).removeClass('order-table-active-row')})"/>
+            </rich:collapsiblePanel>
+        </h:form>
+        <!-- </c:if>-->
+
+        <br/>
+        <h:outputStylesheet library="css" name="panel.css" />
+        <rich:panel header="เลือกเดือน-ปีทีต้องการ" >
+            <h:form id="PersonalTimeStampReport" >
+                <h:panelGrid columns="7" >
+                    <h:outputLabel value="เดือน" />
+                    <h:selectOneMenu value="#{timeStampBean.month}" valueChangeListener="#{timeStampBean.monthChanged}" >
+                        <c:forEach items="#{selectMonths.monthsList}" var="sm">
+                            <f:selectItem itemValue="#{sm.no}" itemLabel="#{sm.name}"/>
+                        </c:forEach>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="ปี" />
+                    <h:selectOneMenu value="#{timeStampBean.year}" valueChangeListener="#{timeStampBean.yearChanged}" >
+                        <c:forEach items="#{selectYears.yearsList}" var="sy">
+                            <f:selectItem itemValue="#{sy.christianyear}" itemLabel="#{sy.buddhismyear}"/>
+                        </c:forEach>
+                    </h:selectOneMenu>
+                    <h:commandButton value="รายงาน" actionListener="#{timeStampBean.preloadTimeStampList(event)}" >
+                        <f:setPropertyActionListener target="#{timeStampBean.by_org}" value="#{true}"/>
+                        <f:setPropertyActionListener target="#{timeStampBean.by_org_noid}" value="#{false}"/>
+                        <f:setPropertyActionListener target="#{timeStampBean.by_session}" value="#{false}"/>
+                    </h:commandButton>
+                    <c:if test="${timeStampBean.by_org}" >
+                        <h:commandButton id="pdf-print" action="#{timeStampBean.print(actionEvent)}" image="/images/icons/printer.png" >
+                            <rich:tooltip followMouse="true" mode="client" horizontalOffset="5" verticalOffset="5" layout="block">
+                                พิมพ์
+                            </rich:tooltip>
+                        </h:commandButton>
+                        <h:commandButton id="pdf-download" action="#{timeStampBean.pdf(actionEvent)}" image="/images/icons/file-pdf.png">
+                            <rich:tooltip followMouse="true" mode="client" horizontalOffset="5" verticalOffset="5" layout="block">
+                                ดาวน์โหลด PDF
+                            </rich:tooltip>
+                        </h:commandButton>
+                    </c:if>
+                </h:panelGrid>
+            </h:form>
+        </rich:panel>
+        <br/>
+        <center>
+            <h:panelGrid columns="4" width="100%"  bgcolor="#F0F6FE" >                                    
+                <h:outputLabel style="font-weight: bold;" value="เลขที่เงินเดือน"  />
+                <h:outputLabel style="font-weight: bold;" value="ชื่อ-นามสกุล" />
+                <h:outputLabel style="font-weight: bold;" value="ตำแหน่ง" />
+                <h:outputLabel style="font-weight: bold;" value="หน่วยงานตามเลขที่เงินเดือน" />
+
+                <h:outputText value=" #{timeStampBean.org_no}" />
+                <h:outputText value=" #{timeStampBean.org_empname}" />
+                <h:outputText value=" #{timeStampBean.org_position}" />
+                <h:outputText value=" #{timeStampBean.org_department}" />
+            </h:panelGrid>
+        </center>
+        <c:if test="${timeStampBean.by_org}" >
+            <br/>
+            <center>
+                <h:dataTable value="#{timeStampBean.timeStampList}" var="tsl" 
+                             styleClass="order-table"
+                             headerClass="order-table-header"
+                             columnClasses="order-table-column,order-table-column,
+                             order-table-column,order-table-column,order-table-column-last"
+                             id="timeStampTableResult">
+                    <h:column>
+                        <f:facet name="header">
+                            วันที่
+                        </f:facet>
+                        <h:outputText value="#{tsl.checkdate}">
+                            <f:convertDateTime type="date" pattern="d" />
+                        </h:outputText>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            วัน
+                        </f:facet>
+                        <h:outputText value="#{tsl.checkdate}">
+                            <f:convertDateTime type="date" pattern="E" locale="th_TH" />
+                        </h:outputText>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            เวลา
+                        </f:facet>
+                        <h:outputText value="#{tsl.checkdate}">
+                            <f:convertDateTime type="time" pattern="HH:mm" />
+                        </h:outputText>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            เข้า/ออก
+                        </f:facet>
+                        #{tsl.verifycode}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            จุดลงเวลา
+                        </f:facet>
+                        #{tsl.scanner}
+                    </h:column>
+                </h:dataTable>
+                <rich:jQuery selector="#timeStampTableResult tr:odd" query="addClass('order-table-odd-row')" />
+                <rich:jQuery selector="#timeStampTableResult tr:even" query="addClass('order-table-even-row')" />
+                <rich:jQuery selector="#timeStampTableResult tr" 
+                             query="mouseover(function(){jQuery(this).addClass('order-table-active-row')})"/>
+                <rich:jQuery selector="#timeStampTableResult tr" 
+                             query="mouseout(function(){jQuery(this).removeClass('order-table-active-row')})"/>
+            </center>
+        </c:if>
+    </ui:composition>
+</html>
+
+
+

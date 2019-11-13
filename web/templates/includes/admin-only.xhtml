@@ -1,0 +1,18 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:rich="http://richfaces.org/rich">
+
+	<ui:composition>
+            <h:outputStylesheet library="css" name="panel.css" />
+                <rich:panel header="Premission Deny!" 
+                            style="width: 300px;margin-left:auto;margin-right:auto;margin-top: 10px;" >
+                    <h:panelGrid columns="2">
+                        <h:graphicImage value="/images/icons/lock.png"/>
+                            <h:outputText value="เฉพาะผู้ดูแลระบบเท่านั้น"/>
+                    </h:panelGrid>
+                </rich:panel>
+	</ui:composition>
+</html>
+

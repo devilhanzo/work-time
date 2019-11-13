@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:rich="http://richfaces.org/rich">
+
+    <ui:composition template="/templates/main.xhtml">
+        <ui:define name="body">
+            <font color="red"><b>เข้าโปรแกรมด้วยบัญชีตรวจสอบเงินเดือน(ได้ลงทะเบียนลายนิ้วมือในระบบแล้ว)</b></font><br/>
+            - ดูรายงานเวลาทำงานของตนเองสามารถ Login เข้าโปรแกรมได้ทันที<br/>
+            - ต้องการ<font color="red"><b>ออกรายงานระดับหน่วยงาน,องค์กร</b></font> 
+            ขอเปิดใช้บัญชีเลขที่เงินเดือนได้ที่ 
+            <h:graphicImage value="/images/icons/phone.png" />&nbsp;1178,2000,2013<br/>
+            <h:outputStylesheet library="css" name="panel.css" />
+            <rich:panel style="width: 350px;margin-left:auto;margin-right:auto;margin-top: 10px;" >
+                <f:facet name="header">
+                    <h:panelGrid columns="2" >
+                        <h:graphicImage value="/images/icons/user.png"/>
+                        <h:outputText value="Work-Time Login"/>                        
+                    </h:panelGrid>
+                </f:facet> 
+                <h:form id="login" >
+                    <h:outputStylesheet library="css" name="validate.css" />
+                    <h:panelGrid columns="3" >
+                        <h:outputText value="User:"/>
+                        <h:inputText id="username" requiredMessage="กรุณาใส่ชื่อผู้ใช้" required="true" value="#{userLogin.username}"/>
+                        <h:outputStylesheet library="css" name="validate.css" />
+                        <rich:message for="username" ajaxRendered="true" />
+                        <h:outputText value="Password:"/>
+                        <h:inputSecret id="password" requiredMessage="กรุณาใส่ระหัสผ่าน" required="true" value="#{userLogin.password}">
+                        </h:inputSecret>
+                        <h:outputStylesheet library="css" name="validate.css" />
+                        <rich:message for="password" ajaxRendered="true"  />
+                        <h:outputText value="" />
+                        <h:commandButton action="#{userLogin.checkValidUser}" value="Login" />
+                    </h:panelGrid>                  
+                </h:form>
+                <center><h:outputLabel value="Session Timeout 15 Minutes" /></center>
+            </rich:panel>
+        </ui:define>
+
+    </ui:composition>
+</html>
+

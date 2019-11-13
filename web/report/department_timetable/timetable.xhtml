@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:c="http://java.sun.com/jsp/jstl/core" >
+
+    <ui:composition>
+        <h:outputStylesheet library="css" name="report-table.css" />
+        <p><b>จัดการเวลาทำงานของหน่วยงาน</b></p>
+        <h:outputStylesheet library="css" name="panel.css" />
+        <rich:panel id="tablepanel" >
+            <f:facet name="header">
+                <h:outputText value="เพิ่ม ลบ แก้ไข ตารางเวลา"></h:outputText>
+            </f:facet>
+            <h:form>
+                <h:panelGrid columns="3" >
+                    <h:commandButton value="สร้าง" action="#{timeTableBean.newTable(action)}" disabled="#{timeTableBean.addBtDisable}"  />
+                    <h:commandButton value="ลบ" action="#{timeTableBean.deleteTable(action)}" disabled="#{timeTableBean.deleteBtDisable}" />
+                    <h:commandButton id="template_bt" value="ใช้แม่แบบ" action="#{timeTableBean.loadTemplate(action)}" >
+                        <rich:tooltip followMouse="true" mode="client" horizontalOffset="5" verticalOffset="5" layout="block">
+                            <u><b>ตารางเวลาทำงาน</b></u><br/>เช้า 8:00 น.-16:00 น.<br/>เช้า 8:30 น.-16:30 น.<br/>บ่าย 16:00 น.-00:00 น.<br/>
+                            ดึก 00:00 น.-08:00 น.<br/><b>คำเตือน</b> ตารางเวลาทำงานที่เคยสร้างไว้<br/>จะถูกแทนที่ด้วยแม่แบบนี้ทั้งหมด
+                        </rich:tooltip>
+                    </h:commandButton>
+                </h:panelGrid>
+            </h:form>
+
+            <h:panelGrid id="tabledetail" columns="3" columnClasses="verticalTop,verticalTop,verticalTop"  >
+                <h:form >
+                    <h:panelGrid columns="2" >
+                        <h:outputText value="ข้อมูลตารางเวลา" style="font-weight: bold;" />
+                        <h:outputText value="" />
+                        <h:outputLabel value="ชื่อตาราง"/>
+                        <h:inputText id="tablename" label="ชื่อตาราง" value="#{timeTableBean.tablename}"  
+                                     required="true" requiredMessage="ชื่อตาราง : ว่างไม่ได้" 
+                                     validatorMessage="ชื่อตาราง : ไม่เกิน 45 อักษร" >
+                            <f:validateLength maximum="45" />
+                        </h:inputText>
+                    </h:panelGrid>
+                    <h:panelGrid columns="3" >
+                        <h:outputLabel value="เวลาเข้างาน" />
+                        <h:selectOneMenu value="#{timeTableBean.start}" >
+                            <c:forEach items="#{timeParser.timesList}" var="tl" >
+                                <f:selectItem itemValue="#{tl.value}" itemLabel="#{tl.tick}"/>
+                            </c:forEach>
+                        </h:selectOneMenu>
+                        <h:outputLabel value="นาฬิกา"/>
+                        <h:outputLabel value="เวลาเลิกงาน" />
+                        <h:selectOneMenu value="#{timeTableBean.end}" >
+                            <c:forEach items="#{timeParser.timesList}" var="tl" >
+                                <f:selectItem itemValue="#{tl.value}" itemLabel="#{tl.tick}"/>
+                            </c:forEach>
+                        </h:selectOneMenu>
+                        <h:outputLabel value="นาฬิกา"/>
+                        <h:outputLabel value="ให้เข้างานได้ตั้งแต่เวลา" />
+                        <h:selectOneMenu value="#{timeTableBean.prestart}" >
+                            <c:forEach items="#{timeParser.timesList}" var="tl" >
+                                <f:selectItem itemValue="#{tl.value}" itemLabel="#{tl.tick}"/>
+                            </c:forEach>
+                        </h:selectOneMenu>
+                        <h:outputLabel value="นาฬิกา"/>
+                        <h:outputLabel value="ให้เข้างานภายในเวลา" />
+                        <h:selectOneMenu value="#{timeTableBean.poststart}"  >
+                            <c:forEach items="#{timeParser.timesList}" var="tl" >
+                                <f:selectItem itemValue="#{tl.value}" itemLabel="#{tl.tick}"/>
+                            </c:forEach>
+                        </h:selectOneMenu>
+                        <h:outputLabel value="นาฬิกา"/>
+                        <h:outputLabel value="ให้เลิกงานได้ตั้งแต่เวลา" />
+                        <h:selectOneMenu value="#{timeTableBean.preend}"  >
+                            <c:forEach items="#{timeParser.timesList}" var="tl" >
+                                <f:selectItem itemValue="#{tl.value}" itemLabel="#{tl.tick}"/>
+                            </c:forEach>
+                        </h:selectOneMenu>
+                        <h:outputLabel value="นาฬิกา"/>
+                        <h:outputLabel value="ให้เลิกงานภายในเวลา" />
+                        <h:selectOneMenu value="#{timeTableBean.postend}"  >
+                            <c:forEach items="#{timeParser.timesList}" var="tl" >
+                                <f:selectItem itemValue="#{tl.value}" itemLabel="#{tl.tick}"/>
+                            </c:forEach>
+                        </h:selectOneMenu>
+                        <h:outputLabel value="นาฬิกา"/>
+                        <h:outputLabel value="เริ่มคิด ET ก่อนเวลาเข้างาน" />
+                        <h:selectOneMenu value="#{timeTableBean.startot}" >
+                            <f:selectItem itemValue="00:00:00" itemLabel="00:00" />
+                            <f:selectItem itemValue="00:30:00" itemLabel="00:30" />
+                            <f:selectItem itemValue="01:00:00" itemLabel="01:00" />
+                            <f:selectItem itemValue="01:30:00" itemLabel="01:30" />
+                            <f:selectItem itemValue="02:00:00" itemLabel="02:00" />
+                        </h:selectOneMenu>
+                        <h:outputLabel value="ชั่วโมง"/>
+                        <h:outputLabel value="เริ่มคิด OT หลังเวลาเลิกงาน" />
+                        <h:selectOneMenu value="#{timeTableBean.endot}" >
+                            <f:selectItem itemValue="00:00:00" itemLabel="00:00" />
+                            <f:selectItem itemValue="00:30:00" itemLabel="00:30" />
+                            <f:selectItem itemValue="01:00:00" itemLabel="01:00" />
+                            <f:selectItem itemValue="01:30:00" itemLabel="01:30" />
+                            <f:selectItem itemValue="02:00:00" itemLabel="02:00" />
+                        </h:selectOneMenu>
+                        <h:outputLabel value="ชั่วโมง"/>
+                        <h:commandButton value="บันทึก" actionListener="#{timeTableBean.saveTable(action)}" disabled="#{timeTableBean.saveBTDisable}" />
+                        <h:outputStylesheet library="css" name="validate.css" />
+                        <rich:messages ajaxRendered="true" />
+                    </h:panelGrid>    
+                </h:form>
+                <h:panelGrid columns="1" width="50" >
+
+                </h:panelGrid>
+                <h:form>
+                    <h:panelGrid columns="1">                    
+                        <h:dataTable value="#{timeTableBean.timeTableList}" var="ttl" styleClass="order-table"
+                                     headerClass="order-table-header"
+                                     columnClasses="order-table-column-last"
+                                     id="user_timetable">
+                            <h:column >
+                                <f:facet name="header">
+                                    <b>ตารางเวลาทำงาน</b>
+                                </f:facet>
+
+                                <h:commandLink value="#{ttl.tablename}" id="selecttable" action="#{timeTableBean.selectTable(action)}" >
+                                    <rich:tooltip followMouse="true" mode="client" horizontalOffset="5" verticalOffset="5" layout="block">
+                                        แก้ไข/ลบ ตารางเวลา
+                                    </rich:tooltip>
+                                    <f:setPropertyActionListener target="#{timeTableBean.tbid}" value="#{ttl.tbid}" />
+                                </h:commandLink>
+                            </h:column>
+                        </h:dataTable>
+                        <rich:jQuery selector="#user_timetable tr:odd" query="addClass('order-table-odd-row')" />
+                        <rich:jQuery selector="#user_timetable tr:even" query="addClass('order-table-even-row')" />
+                        <rich:jQuery selector="#user_timetable tr" 
+                                     query="mouseover(function(){jQuery(this).addClass('order-table-active-row')})"/>
+                        <rich:jQuery selector="#user_timetable tr" 
+                                     query="mouseout(function(){jQuery(this).removeClass('order-table-active-row')})"/>
+                    </h:panelGrid>
+                </h:form>
+            </h:panelGrid>
+        </rich:panel>
+    </ui:composition>
+</html>
+

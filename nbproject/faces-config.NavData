@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><Scene Scope="Faces Configuration Only" version="2">
+    <Scope Scope="Faces Configuration Only">
+        <Node id="login.xhtml" x="391" y="69" zoom="true"/>
+        <Node id="notregister.xhtml" x="390" y="347" zoom="true"/>
+        <Node id="suspended.xhtml" x="799" y="349" zoom="true"/>
+        <Node id="loginfail.xhtml" x="54" y="348" zoom="true"/>
+    </Scope>
+    <Scope Scope="Project">
+        <Node id="wt_adm/stat.xhtml" x="1150" y="450" zoom="true"/>
+        <Node id="report/employees/unemployeeid.xhtml" x="1150" y="150" zoom="true"/>
+        <Node id="wt_adm/manageuser.xhtml" x="650" y="900" zoom="true"/>
+        <Node id="report/timestamp/timestamp.xhtml" x="900" y="150" zoom="true"/>
+        <Node id="index.jsp" x="650" y="150" zoom="true"/>
+        <Node id="report/manual/download_manual.xhtml" x="900" y="450" zoom="true"/>
+        <Node id="report/report.xhtml" x="650" y="300" zoom="true"/>
+        <Node id="wt_adm/adm.xhtml" x="1900" y="150" zoom="true"/>
+        <Node id="report/employees/employeeid.xhtml" x="650" y="750" zoom="true"/>
+        <Node id="report/person_month/checkinout_noid.xhtml" x="1150" y="300" zoom="true"/>
+        <Node id="report/sum_day/department.xhtml" x="1400" y="150" zoom="true"/>
+        <Node id="report/person_day/checkinout.xhtml" x="900" y="600" zoom="true"/>
+        <Node id="report/require/system_require.xhtml" x="400" y="900" zoom="true"/>
+        <Node id="report/sum_month/person.xhtml" x="400" y="300" zoom="true"/>
+        <Node id="report/department_month/checkinout.xhtml" x="900" y="750" zoom="true"/>
+        <Node id="report/person_period/checkinout.xhtml" x="150" y="750" zoom="true"/>
+        <Node id="report/bug_report/contact.xhtml" x="1650" y="300" zoom="true"/>
+        <Node id="templates/includes/admin-controls.xhtml" x="150" y="900" zoom="true"/>
+        <Node id="report/employees/extern.xhtml" x="150" y="150" zoom="true"/>
+        <Node id="templates/nolayout.xhtml" x="150" y="300" zoom="true"/>
+        <Node id="report/sum_month/department.xhtml" x="400" y="600" zoom="true"/>
+        <Node id="report/timestamp/timestamp_notkkhid.xhtml" x="400" y="450" zoom="true"/>
+        <Node id="report/person_month/checkinout.xhtml" x="1400" y="450" zoom="true"/>
+        <Node id="login.xhtml" x="81" y="122" zoom="true"/>
+        <Node id="report/person_period/checkinout_noid.xhtml" x="900" y="300" zoom="true"/>
+        <Node id="report/sum_day/person.xhtml" x="650" y="450" zoom="true"/>
+        <Node id="templates/main.xhtml" x="150" y="600" zoom="true"/>
+        <Node id="report/sum_year/person.xhtml" x="150" y="1050" zoom="true"/>
+        <Node id="report/person_day/checkinout_noid.xhtml" x="650" y="600" zoom="true"/>
+        <Node id="report/department_period/checkinout.xhtml" x="1400" y="300" zoom="true"/>
+        <Node id="report/holiday/holiday.xhtml" x="400" y="750" zoom="true"/>
+        <Node id="report/sum_year/department.xhtml" x="400" y="1050" zoom="true"/>
+        <Node id="templates/includes/navigation.xhtml" x="150" y="450" zoom="true"/>
+        <Node id="welcome.xhtml" x="1650" y="150" zoom="true"/>
+        <Node id="wt_adm/log.xhtml" x="1150" y="600" zoom="true"/>
+        <Node id="loginfail.xhtml" x="87" y="278" zoom="true"/>
+        <Node id="report/department_day/checkinout.xhtml" x="400" y="150" zoom="true"/>
+    </Scope>
+    <Scope Scope="All Faces Configurations">
+        <Node id="login.jsp" x="650" y="150" zoom="true"/>
+        <Node id="loginfail.jsp" x="150" y="300" zoom="true"/>
+        <Node id="welcome.jsp" x="150" y="150" zoom="true"/>
+    </Scope>
+</Scene>
